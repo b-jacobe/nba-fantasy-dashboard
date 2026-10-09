@@ -9,7 +9,7 @@ ESPN league **618015977**, team **BAJ (2)**, **2026–27** season (`2027` in ESP
 - Searchable available-player pool and position filters.
 - Actual matchup scores and published opponent schedule.
 - Relative roster grades and two transparent models: ESPN projection and 75% projection / 25% prior-season total.
-- Data age, stale warnings after 26 hours, manual refresh and explicit refresh failure states.
+- Last-updated age in hours, manual refresh and explicit refresh failure states.
 
 ## Run locally
 
