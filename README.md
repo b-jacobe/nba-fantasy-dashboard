@@ -9,7 +9,7 @@ ESPN league **618015977**, team **BAJ (2)**, **2026–27** season (`2027` in ESP
 - Searchable available-player pool and position filters.
 - Actual matchup scores and published opponent schedule.
 - Relative roster grades and two transparent models: ESPN projection and 75% projection / 25% prior-season total.
-- Data age, stale warnings, polling and explicit refresh failure states.
+- Data age, stale warnings after 26 hours, manual refresh and explicit refresh failure states.
 
 ## Run locally
 
@@ -22,7 +22,7 @@ Open http://localhost:8080. No build step or third-party Python packages require
 
 ## GitHub Pages
 
-Create a repository and push these files to `main`. Under Settings → Pages choose **GitHub Actions**. Run **Sync ESPN and publish dashboard** in Actions. The workflow refreshes at minutes 7, 22, 37 and 52 each hour. GitHub scheduling and Pages deployment may be delayed; this is snapshot monitoring, not a low-latency draft feed. Clicking Refresh snapshot only reads the latest deployed data. Use Run workflow for an immediate import request.
+Create a repository and push these files to `main`. Under Settings → Pages choose **GitHub Actions**. Run **Sync ESPN and publish dashboard** in Actions. The workflow refreshes once daily at 14:07 UTC (7:07 AM Pacific daylight time / 6:07 AM Pacific standard time). GitHub scheduling and Pages deployment may be delayed; this is snapshot monitoring, not a low-latency draft feed. Clicking Refresh snapshot only reads the latest deployed data. Use Run workflow for an immediate import request.
 
 The ESPN endpoint returned this league without cookies during setup. If authenticated access becomes required, add **ESPN_S2** and **ESPN_SWID** under Settings → Secrets and variables → Actions. Never paste cookies in code, workflow YAML, issues or browser storage. The collector reads secrets from environment variables; it never publishes raw ESPN responses, owner IDs, member profiles or cookies. The public site exposes team names, rosters, draft picks, matchup scores and projections. Snapshot JSON is ignored by Git and published only through the Pages artifact.
 
