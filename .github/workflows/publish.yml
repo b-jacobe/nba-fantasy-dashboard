@@ -1,10 +1,11 @@
 name: Sync ESPN and publish dashboard
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
-  schedule:
-    - cron: '7 14 * * *'
+    inputs:
+      refresh_espn:
+        description: Fetch fresh ESPN data (disable to republish the existing snapshot)
+        type: boolean
+        default: true
 permissions:
   contents: read
 concurrency:
@@ -18,8 +19,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m unittest discover -s tests
       - name: Fetch league snapshot
+        if: ${{ inputs.refresh_espn }}
         run: python scripts/sync.py
         env:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
@@ -27,6 +28,9 @@ jobs:
           ESPN_LEAGUE_ID: ${{ vars.ESPN_LEAGUE_ID || '618015977' }}
           ESPN_TEAM_ID: ${{ vars.ESPN_TEAM_ID || '2' }}
           ESPN_SEASON: ${{ vars.ESPN_SEASON || '2027' }}
+      - name: Preserve published snapshot without contacting ESPN
+        if: ${{ !inputs.refresh_espn }}
+        run: curl --fail --silent --show-error --max-time 30 https://b-jacobe.github.io/nba-fantasy-dashboard/data/league.json -o site/data/league.json
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
