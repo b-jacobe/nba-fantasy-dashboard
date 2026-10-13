@@ -30,7 +30,9 @@ jobs:
           ESPN_SEASON: ${{ vars.ESPN_SEASON || '2027' }}
       - name: Preserve published snapshot without contacting ESPN
         if: ${{ !inputs.refresh_espn }}
-        run: curl --fail --silent --show-error --max-time 30 https://b-jacobe.github.io/nba-fantasy-dashboard/data/league.json -o site/data/league.json
+        run: |
+          mkdir -p site/data
+          curl --fail --silent --show-error --max-time 30 https://b-jacobe.github.io/nba-fantasy-dashboard/data/league.json -o site/data/league.json
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
